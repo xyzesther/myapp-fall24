@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 
-export default function Input() {
+export default function Input(props) {
   const [text, setText] = useState('');
   
   return (
@@ -14,6 +14,7 @@ export default function Input() {
         onChangeText={function (changedText) {
           setText(changedText)
         }}
+        autoFocus={props.autoFocus}
       />
     </View>
   )
