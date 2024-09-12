@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View, Text } from 'react-native'
 import React, { useState } from 'react'
 
 export default function Input(props) {
@@ -16,8 +16,19 @@ export default function Input(props) {
         }}
         autoFocus={props.autoFocus}
       />
+      {text.length > 0 && (
+        <Text style={styles.count}>
+          Characters Typed: {text.length}
+        </Text>
+      )} 
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  count: {
+    color: 'grey',
+    fontSize: 12,
+    marginTop: 5
+  }
+})
