@@ -4,13 +4,20 @@ import React, { useState } from 'react'
 export default function Input(props) {
   const [text, setText] = useState('');
   const [showCount, setShowCount] = useState(true);
+  const [message, setMessage] = useState('')
 
   const handleBlur = () => {
     setShowCount(false);
+    if (text.length < 3) {
+      setMessage('Please type more than 3 characters');
+    } else {
+      setMessage('Thank you');
+    }
   }
 
   const handleFocus = () => {
     setShowCount(true);
+    setMessage('');
   }
   
   return (
@@ -31,7 +38,12 @@ export default function Input(props) {
         <Text style={styles.count}>
           Characters Typed: {text.length}
         </Text>
-      )} 
+      )}
+      {message && 
+        <Text style={styles.message}>
+          {message}
+        </Text>
+      }   
     </View>
   )
 }
@@ -39,6 +51,12 @@ export default function Input(props) {
 const styles = StyleSheet.create({
   count: {
     color: 'grey',
+    fontSize: 12,
+    marginTop: 5
+  },
+
+  message: {
+    color: 'red',
     fontSize: 12,
     marginTop: 5
   }
