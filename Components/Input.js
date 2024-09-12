@@ -3,6 +3,15 @@ import React, { useState } from 'react'
 
 export default function Input(props) {
   const [text, setText] = useState('');
+  const [showCount, setShowCount] = useState(true);
+
+  const handleBlur = () => {
+    setShowCount(false);
+  }
+
+  const handleFocus = () => {
+    setShowCount(true);
+  }
   
   return (
     <View>
@@ -15,8 +24,10 @@ export default function Input(props) {
           setText(changedText)
         }}
         autoFocus={props.autoFocus}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
       />
-      {text.length > 0 && (
+      {showCount && text.length > 0 && (
         <Text style={styles.count}>
           Characters Typed: {text.length}
         </Text>
