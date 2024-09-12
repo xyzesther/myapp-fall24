@@ -1,11 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Header from './Components/Header';
+import Input from './Components/Input';
 
 export default function App() {
+  const appName = 'My First React Native App';
+
   return (
     <View style={styles.container}>
-      <Text>Welcome!</Text>
+      <Header name={appName} />
       <StatusBar style="auto" />
+      <Input />
     </View>
   );
 }
