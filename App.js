@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
@@ -22,7 +22,9 @@ export default function App() {
         <Header name={appName} />
         <Button 
           title="Add a Goal" 
-          onPress={() => setVisibility(true)} 
+          onPress={() => {
+            setVisibility(true);
+          }} 
         />
       </View>
       <Input 
