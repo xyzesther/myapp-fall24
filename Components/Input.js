@@ -1,7 +1,7 @@
-import { StyleSheet, TextInput, View, Text } from 'react-native'
+import { StyleSheet, TextInput, View, Text, Button, Modal } from 'react-native'
 import React, { useState } from 'react'
 
-export default function Input(props) {
+export default function Input({textInputFocus, inputHandler, modalVisible}) {
   const [text, setText] = useState('');
   const [showCount, setShowCount] = useState(true);
   const [message, setMessage] = useState('')
@@ -19,36 +19,55 @@ export default function Input(props) {
     setShowCount(true);
     setMessage('');
   }
+
+  const handleConfirm = () => {
+    inputHandler(text);
+  }
   
   return (
-    <View>
-      <TextInput 
-        placeholder='Type Something Here!' 
-        keyboardType='default' 
-        style={{ borderBottomColor: 'purple', borderBottomWidth: 2 }}
-        value={text}
-        onChangeText={function (changedText) {
-          setText(changedText)
-        }}
-        autoFocus={props.autoFocus}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-      />
-      {showCount && text.length > 0 && (
-        <Text style={styles.count}>
-          Characters Typed: {text.length}
-        </Text>
-      )}
-      {message && 
-        <Text style={styles.message}>
-          {message}
-        </Text>
-      }   
-    </View>
+    <Modal animationType='slide' visible={modalVisible}>
+      <View style={styles.container}>
+        <TextInput 
+          placeholder='Type Something Here!' 
+          keyboardType='default' 
+          style={styles.input}
+          value={text}
+          onChangeText={function (changedText) {
+            setText(changedText)
+          }}
+          autoFocus={textInputFocus}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+        />
+        {showCount && text.length > 0 && (
+          <Text style={styles.count}>
+            Characters Typed: {text.length}
+          </Text>
+        )}
+        {message && 
+          <Text style={styles.message}>
+            {message}
+          </Text>
+        } 
+        <View style={styles.buttonContainer}>  
+          <Button 
+            title='Confirm' 
+            onPress={handleConfirm} 
+          />
+        </View>
+      </View>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   count: {
     color: 'grey',
     fontSize: 12,
@@ -59,5 +78,17 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 12,
     marginTop: 5
+  },
+
+  input: {
+    borderBottomColor: 'purple',
+    borderBottomWidth: 2,
+    color: 'blue',
+    padding: 5,
+  },
+
+  buttonContainer: {
+    width: '30%',
+    marginVertical: 5,
   }
 })
