@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View, Text } from 'react-native'
+import { StyleSheet, TextInput, View, Text, Button } from 'react-native'
 import React, { useState } from 'react'
 
 export default function Input(props) {
@@ -18,6 +18,10 @@ export default function Input(props) {
   const handleFocus = () => {
     setShowCount(true);
     setMessage('');
+  }
+
+  const handleConfirm = () => {
+    console.log(text);
   }
   
   return (
@@ -44,6 +48,10 @@ export default function Input(props) {
           {message}
         </Text>
       }   
+      <Button 
+        title='Confirm' 
+        onPress={handleConfirm} 
+      />
     </View>
   )
 }
