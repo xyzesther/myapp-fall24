@@ -92,17 +92,17 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
             </Text>
           } 
           <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button 
+                title='Cancel'
+                onPress={cancelConfirm}
+              />
+            </View>
             <View style={styles.button}> 
               <Button
                 title='Confirm' 
                 onPress={handleConfirm}
                 disabled={!isConfirmEnabled} 
-              />
-            </View>
-            <View style={styles.button}>
-              <Button 
-                title='Cancel'
-                onPress={cancelConfirm}
               />
             </View>
           </View>
