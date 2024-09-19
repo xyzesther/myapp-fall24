@@ -1,10 +1,14 @@
-import { StyleSheet, TextInput, View, Text, Button, Modal } from 'react-native'
+import { StyleSheet, TextInput, View, Text, Button, Modal, Alert } from 'react-native'
 import React, { useState } from 'react'
 
-export default function Input({textInputFocus, inputHandler, modalVisible}) {
+export default function Input({textInputFocus, inputHandler, modalVisible, cancelHandler}) {
   const [text, setText] = useState('');
   const [showCount, setShowCount] = useState(true);
   const [message, setMessage] = useState('')
+
+  const updateText = (changedText) => {
+    setText(changedText);
+  }
 
   const handleBlur = () => {
     setShowCount(false);
@@ -23,7 +27,26 @@ export default function Input({textInputFocus, inputHandler, modalVisible}) {
   const handleConfirm = () => {
     inputHandler(text);
   }
-  
+
+  const cancelConfirm = () => {
+    Alert.alert(
+      'Cancel',
+      'Are you sure to cancel?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            cancelHandler();
+          },
+        },
+        {cancelable: false}
+      ]);
+  }
+
   return (
     <Modal animationType='slide' visible={modalVisible}>
       <View style={styles.container}>
@@ -32,9 +55,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible}) {
           keyboardType='default' 
           style={styles.input}
           value={text}
-          onChangeText={function (changedText) {
-            setText(changedText)
-          }}
+          onChangeText={updateText}
           autoFocus={textInputFocus}
           onBlur={handleBlur}
           onFocus={handleFocus}
@@ -49,11 +70,19 @@ export default function Input({textInputFocus, inputHandler, modalVisible}) {
             {message}
           </Text>
         } 
-        <View style={styles.buttonContainer}>  
-          <Button 
-            title='Confirm' 
-            onPress={handleConfirm} 
-          />
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}> 
+            <Button
+              title='Confirm' 
+              onPress={handleConfirm} 
+            />
+          </View>
+          <View style={styles.button}>
+            <Button 
+              title='Cancel'
+              onPress={cancelConfirm}
+            />
+          </View>
         </View>
       </View>
     </Modal>
@@ -90,5 +119,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '30%',
     marginVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  button: {
+    marginHorizontal: 10,
   }
-})
+});

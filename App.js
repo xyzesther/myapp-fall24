@@ -15,6 +15,10 @@ export default function App() {
     setVisibility(false);
   }
 
+  function handleCancel() {
+    setVisibility(false);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -29,7 +33,8 @@ export default function App() {
       </View>
       <Input 
         textInputFocus={true} 
-        inputHandler={handleInputData} 
+        inputHandler={handleInputData}
+        cancelHandler={handleCancel} 
         modalVisible={visibility}
       />
       <View style={styles.bottomView}>
