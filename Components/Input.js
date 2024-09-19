@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, View, Text, Button } from 'react-native'
 import React, { useState } from 'react'
 
-export default function Input(props) {
+export default function Input(textInputFocus, inputHandler) {
   const [text, setText] = useState('');
   const [showCount, setShowCount] = useState(true);
   const [message, setMessage] = useState('')
@@ -22,6 +22,7 @@ export default function Input(props) {
 
   const handleConfirm = () => {
     console.log(text);
+    inputHandler(text);
   }
   
   return (
@@ -34,7 +35,7 @@ export default function Input(props) {
         onChangeText={function (changedText) {
           setText(changedText)
         }}
-        autoFocus={props.autoFocus}
+        autoFocus={textInputFocus}
         onBlur={handleBlur}
         onFocus={handleFocus}
       />
