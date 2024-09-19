@@ -35,7 +35,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible}) {
         <TextInput 
           placeholder='Type Something Here!' 
           keyboardType='default' 
-          style={{ borderBottomColor: 'purple', borderBottomWidth: 2 }}
+          style={styles.input}
           value={text}
           onChangeText={function (changedText) {
             setText(changedText)
@@ -82,4 +82,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 5
   },
+
+  input: {
+    borderBottomColor: 'purple',
+    borderBottomWidth: 2,
+    color: 'blue',
+    marginBottom: 5,
+  }
 })

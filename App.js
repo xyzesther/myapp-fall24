@@ -28,7 +28,9 @@ export default function App() {
         inputHandler={handleInputData} 
         modalVisible={visibility}
       />
-      <Text>{receivedData}</Text>
+      <Text style={styles.text}>
+        {receivedData}
+      </Text>
     </View>
   );
 }
@@ -39,5 +41,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  text: {
+    color: "purple",
   },
 });
