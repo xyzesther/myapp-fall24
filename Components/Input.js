@@ -26,6 +26,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
 
   const handleConfirm = () => {
     inputHandler(text);
+    setText('');
   }
 
   const cancelConfirm = () => {
@@ -41,6 +42,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
           text: 'OK',
           onPress: () => {
             cancelHandler();
+            setText('');
           },
         },
         {cancelable: false}
