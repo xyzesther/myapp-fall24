@@ -21,12 +21,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible}) {
   }
 
   const handleConfirm = () => {
-    console.log(text);
     inputHandler(text);
-  }
-
-  const handleVisible = () => {
-    
   }
   
   return (
