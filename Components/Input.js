@@ -4,10 +4,14 @@ import React, { useState } from 'react'
 export default function Input({textInputFocus, inputHandler, modalVisible, cancelHandler}) {
   const [text, setText] = useState('');
   const [showCount, setShowCount] = useState(true);
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
+  const [isConfirmEnabled, setIsConfirmEnabled] = useState(false);
+  const minCharacters = 5;
+
 
   const updateText = (changedText) => {
     setText(changedText);
+    setIsConfirmEnabled(changedText.length >= minCharacters);
   }
 
   const handleBlur = () => {
@@ -27,6 +31,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
   const handleConfirm = () => {
     inputHandler(text);
     setText('');
+    setIsConfirmEnabled(false);
   }
 
   const cancelConfirm = () => {
@@ -76,7 +81,8 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
           <View style={styles.button}> 
             <Button
               title='Confirm' 
-              onPress={handleConfirm} 
+              onPress={handleConfirm}
+              disabled={!isConfirmEnabled} 
             />
           </View>
           <View style={styles.button}>
