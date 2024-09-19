@@ -53,11 +53,13 @@ export default function Input({textInputFocus, inputHandler, modalVisible}) {
           <Text style={styles.message}>
             {message}
           </Text>
-        }   
-        <Button 
-          title='Confirm' 
-          onPress={handleConfirm} 
-        />
+        } 
+        <View style={styles.buttonContainer}>  
+          <Button 
+            title='Confirm' 
+            onPress={handleConfirm} 
+          />
+        </View>
       </View>
     </Modal>
   )
@@ -87,6 +89,11 @@ const styles = StyleSheet.create({
     borderBottomColor: 'purple',
     borderBottomWidth: 2,
     color: 'blue',
-    marginBottom: 5,
+    padding: 5,
+  },
+
+  buttonContainer: {
+    width: '30%',
+    marginVertical: 5,
   }
 })
