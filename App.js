@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Alert } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
@@ -32,6 +32,31 @@ export default function App() {
     });
   }
 
+  function handleDeleteAllConfirm() {
+    Alert.alert(
+      'Delete All',
+      'Are you sure to delete all goals?',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            deleteAllHandler();
+          },
+        },
+        {cancelable: false}
+      ]
+    );
+  }
+
+  function deleteAllHandler() {
+    console.log("delete all goals");
+    setGoals([]);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -61,6 +86,12 @@ export default function App() {
             <Text style={styles.goalListHeader}>
               My Goal List
             </Text>
+          }
+          ListFooterComponent={ goals.length > 0 &&
+            <Button 
+              title="Delete All" 
+              onPress={handleDeleteAllConfirm} 
+              style={styles.goalListFooter}/>
           }
           contentContainerStyle={styles.scrollViewContent} 
           data={goals} 
@@ -123,5 +154,10 @@ const styles = StyleSheet.create({
     color: "purple",
     fontSize: 25,
     padding: 20,
+  },
+
+  goalListFooter: {
+    fontSize: 12,
+    marginTop: 30,
   },
 });
