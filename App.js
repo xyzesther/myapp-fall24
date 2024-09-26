@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
 
 export default function App() {
   const appName = 'My First React Native App';
+  const [receivedData, setReceivedData] = useState('');
   const [visibility, setVisibility] = useState(false);
   const [goals, setGoals] = useState([]);
 
@@ -15,7 +16,7 @@ export default function App() {
     let newGoal = {text: data, id: Math.random()};
     // update the goals array with the new goal
     setGoals((prevGoals) => {return [...prevGoals, newGoal]});
-    // setReceivedData(data);
+    setReceivedData(data);
     setVisibility(false);
   }
 
@@ -42,7 +43,19 @@ export default function App() {
         modalVisible={visibility}
       />
       <View style={styles.bottomView}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <FlatList
+          contentContainerStyle={styles.scrollViewContent} 
+          data={goals} 
+          renderItem={(receivedData)=>{
+            return (
+              <View key={receivedData.item.id} style={styles.textContainer}>
+                <Text style={styles.text}>
+                  {receivedData.item.text}
+                </Text>
+              </View>
+            );
+          }}/>
+        {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
           {goals.map((goal) => {
             return (
               <View key={goal.id} style={styles.textContainer}>
@@ -52,7 +65,7 @@ export default function App() {
               </View>
             );
           })}
-        </ScrollView>
+        </ScrollView> */}
         {/* <View style={styles.textContainer}>
           <Text style={styles.text}>
             {receivedData}
