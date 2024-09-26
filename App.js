@@ -25,6 +25,10 @@ export default function App() {
     setVisibility(false);
   }
 
+  function goalDeleteHandler(deletedId) {
+    console.log("goal deleted", deletedId);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -49,7 +53,7 @@ export default function App() {
           data={goals} 
           renderItem={({ item })=>{
             return (
-              <GoalItem goalObj={item}/>
+              <GoalItem goalObj={item} handleDelete={goalDeleteHandler}/>
             );
           }}/>
         {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
