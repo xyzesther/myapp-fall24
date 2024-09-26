@@ -1,22 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
+import GoalItem from './Components/GoalItem';
 
 export default function App() {
   const appName = 'My First React Native App';
   const [receivedData, setReceivedData] = useState('');
   const [visibility, setVisibility] = useState(false);
+  const [goals, setGoals] = useState([]);
 
   function handleInputData(data) {
     console.log("App ", data);
+    // declare a new JS object to store the goal
+    let newGoal = {text: data, id: Math.random()};
+    // update the goals array with the new goal
+    setGoals((prevGoals) => {return [...prevGoals, newGoal]});
     setReceivedData(data);
     setVisibility(false);
   }
 
   function handleCancel() {
     setVisibility(false);
+  }
+
+  function goalDeleteHandler(deletedId) {
+    console.log("goal deleted", deletedId);
   }
 
   return (
@@ -38,9 +48,30 @@ export default function App() {
         modalVisible={visibility}
       />
       <View style={styles.bottomView}>
-        <Text style={styles.text}>
-          {receivedData}
-        </Text>
+        <FlatList
+          contentContainerStyle={styles.scrollViewContent} 
+          data={goals} 
+          renderItem={({ item })=>{
+            return (
+              <GoalItem goalObj={item} handleDelete={goalDeleteHandler}/>
+            );
+          }}/>
+        {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {goals.map((goal) => {
+            return (
+              <View key={goal.id} style={styles.textContainer}>
+                <Text style={styles.text}>
+                  {goal.text}
+                </Text>
+              </View>
+            );
+          })}
+        </ScrollView> */}
+        {/* <View style={styles.textContainer}>
+          <Text style={styles.text}>
+            {receivedData}
+          </Text>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -54,11 +85,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  text: {
-    color: "purple",
-    marginVertical: 5,
-  },
-
   topView: {
     flex: 1,
     alignItems: 'center',
@@ -68,6 +94,9 @@ const styles = StyleSheet.create({
   bottomView: {
     flex: 4,
     backgroundColor: "#dcd",
+  },
+
+  scrollViewContent: {
     alignItems: 'center',
   },
 });
