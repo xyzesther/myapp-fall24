@@ -27,6 +27,9 @@ export default function App() {
 
   function goalDeleteHandler(deletedId) {
     console.log("goal deleted", deletedId);
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => goal.id !== deletedId);
+    });
   }
 
   return (
