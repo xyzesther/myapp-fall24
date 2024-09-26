@@ -26,7 +26,6 @@ export default function App() {
   }
 
   function goalDeleteHandler(deletedId) {
-    console.log("goal deleted", deletedId);
     setGoals((prevGoals) => {
       return prevGoals.filter((goal) => goal.id !== deletedId);
     });
@@ -53,7 +52,6 @@ export default function App() {
   }
 
   function deleteAllHandler() {
-    console.log("delete all goals");
     setGoals([]);
   }
 
@@ -63,7 +61,7 @@ export default function App() {
       <View style={styles.topView}>
         <Header name={appName} />
         <Button 
-          title="Add a Goal" 
+          title="Add A Goal" 
           onPress={() => {
             setVisibility(true);
           }} 
@@ -87,11 +85,16 @@ export default function App() {
               My Goal List
             </Text>
           }
+          ItemSeparatorComponent={
+            <View style={styles.itemSeparator}/>  
+          }
           ListFooterComponent={ goals.length > 0 &&
-            <Button 
-              title="Delete All" 
-              onPress={handleDeleteAllConfirm} 
-              style={styles.goalListFooter}/>
+            <View style={styles.goalListFooter}>
+              <Button 
+                title="Delete All" 
+                onPress={handleDeleteAllConfirm}
+              />
+            </View>
           }
           contentContainerStyle={styles.scrollViewContent} 
           data={goals} 
@@ -158,6 +161,12 @@ const styles = StyleSheet.create({
 
   goalListFooter: {
     fontSize: 12,
-    marginTop: 30,
+    marginTop: 25,
+  },
+
+  itemSeparator: {
+    height: 1,
+    backgroundColor: "purple",
+    marginVertical: 10,
   },
 });
