@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
@@ -15,7 +15,7 @@ export default function App() {
     let newGoal = {text: data, id: Math.random()};
     // update the goals array with the new goal
     setGoals((prevGoals) => {return [...prevGoals, newGoal]});
-    setReceivedData(data);
+    // setReceivedData(data);
     setVisibility(false);
   }
 
@@ -42,15 +42,17 @@ export default function App() {
         modalVisible={visibility}
       />
       <View style={styles.bottomView}>
-        {goals.map((goal) => {
-          return (
-            <View key={goal.id} style={styles.textContainer}>
-              <Text style={styles.text}>
-                {goal.text}
-              </Text>
-            </View>
-          );
-        })}
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {goals.map((goal) => {
+            return (
+              <View key={goal.id} style={styles.textContainer}>
+                <Text style={styles.text}>
+                  {goal.text}
+                </Text>
+              </View>
+            );
+          })}
+        </ScrollView>
         {/* <View style={styles.textContainer}>
           <Text style={styles.text}>
             {receivedData}
@@ -90,6 +92,9 @@ const styles = StyleSheet.create({
   bottomView: {
     flex: 4,
     backgroundColor: "#dcd",
+  },
+
+  scrollViewContent: {
     alignItems: 'center',
   },
 });
