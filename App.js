@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, FlatList } fr
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
+import GoalItem from './Components/GoalItem';
 
 export default function App() {
   const appName = 'My First React Native App';
@@ -46,13 +47,9 @@ export default function App() {
         <FlatList
           contentContainerStyle={styles.scrollViewContent} 
           data={goals} 
-          renderItem={(receivedData)=>{
+          renderItem={({ item })=>{
             return (
-              <View key={receivedData.item.id} style={styles.textContainer}>
-                <Text style={styles.text}>
-                  {receivedData.item.text}
-                </Text>
-              </View>
+              <GoalItem goalObj={item}/>
             );
           }}/>
         {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -82,18 +79,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  textContainer: {
-    backgroundColor: "#ccc",
-    borderRadius: 10,
-    marginTop: 10,
-  },
-
-  text: {
-    color: "purple",
-    fontSize: 25,
-    padding: 10,
   },
 
   topView: {
