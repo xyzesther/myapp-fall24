@@ -53,8 +53,13 @@ export default function App() {
       <View style={styles.bottomView}>
         <FlatList
           ListEmptyComponent={
-            <Text style={styles.text}>
+            <Text style={styles.goalListEmpty}>
               No Goals To Show
+            </Text>
+          }
+          ListHeaderComponent={ goals.length > 0 &&
+            <Text style={styles.goalListHeader}>
+              My Goal List
             </Text>
           }
           contentContainerStyle={styles.scrollViewContent} 
@@ -108,9 +113,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  text: {
+  goalListEmpty: {
     color: "grey",
     fontSize: 20,
     padding: 50,
+  },
+
+  goalListHeader: {
+    color: "purple",
+    fontSize: 25,
+    padding: 20,
   },
 });
