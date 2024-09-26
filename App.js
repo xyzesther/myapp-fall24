@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Button, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
@@ -52,6 +52,11 @@ export default function App() {
       />
       <View style={styles.bottomView}>
         <FlatList
+          ListEmptyComponent={
+            <Text style={styles.text}>
+              No Goals To Show
+            </Text>
+          }
           contentContainerStyle={styles.scrollViewContent} 
           data={goals} 
           renderItem={({ item })=>{
@@ -101,5 +106,11 @@ const styles = StyleSheet.create({
 
   scrollViewContent: {
     alignItems: 'center',
+  },
+
+  text: {
+    color: "grey",
+    fontSize: 20,
+    padding: 50,
   },
 });
