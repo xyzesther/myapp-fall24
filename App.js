@@ -6,11 +6,15 @@ import { useState } from 'react';
 
 export default function App() {
   const appName = 'My First React Native App';
-  const [receivedData, setReceivedData] = useState('');
   const [visibility, setVisibility] = useState(false);
+  const [goals, setGoals] = useState([]);
 
   function handleInputData(data) {
     console.log("App ", data);
+    // declare a new JS object to store the goal
+    let newGoal = {text: data, id: Math.random()};
+    // update the goals array with the new goal
+    setGoals((prevGoals) => {return [...prevGoals, newGoal]});
     setReceivedData(data);
     setVisibility(false);
   }
@@ -38,11 +42,20 @@ export default function App() {
         modalVisible={visibility}
       />
       <View style={styles.bottomView}>
-        <View style={styles.textContainer}>
+        {goals.map((goal) => {
+          return (
+            <View key={goal.id} style={styles.textContainer}>
+              <Text style={styles.text}>
+                {goal.text}
+              </Text>
+            </View>
+          );
+        })}
+        {/* <View style={styles.textContainer}>
           <Text style={styles.text}>
             {receivedData}
           </Text>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -63,7 +76,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "blue",
+    color: "purple",
     fontSize: 25,
     padding: 10,
   },
