@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Alert } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { useState } from 'react';
@@ -26,7 +26,33 @@ export default function App() {
   }
 
   function goalDeleteHandler(deletedId) {
-    console.log("goal deleted", deletedId);
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => goal.id !== deletedId);
+    });
+  }
+
+  function handleDeleteAllConfirm() {
+    Alert.alert(
+      'Delete All',
+      'Are you sure to delete all goals?',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            deleteAllHandler();
+          },
+        },
+        {cancelable: false}
+      ]
+    );
+  }
+
+  function deleteAllHandler() {
+    setGoals([]);
   }
 
   return (
@@ -35,7 +61,7 @@ export default function App() {
       <View style={styles.topView}>
         <Header name={appName} />
         <Button 
-          title="Add a Goal" 
+          title="Add A Goal" 
           onPress={() => {
             setVisibility(true);
           }} 
@@ -49,6 +75,27 @@ export default function App() {
       />
       <View style={styles.bottomView}>
         <FlatList
+          ListEmptyComponent={
+            <Text style={styles.goalListEmpty}>
+              No Goals To Show
+            </Text>
+          }
+          ListHeaderComponent={ goals.length > 0 &&
+            <Text style={styles.goalListHeader}>
+              My Goal List
+            </Text>
+          }
+          ItemSeparatorComponent={
+            <View style={styles.itemSeparator}/>  
+          }
+          ListFooterComponent={ goals.length > 0 &&
+            <View style={styles.goalListFooter}>
+              <Button 
+                title="Delete All" 
+                onPress={handleDeleteAllConfirm}
+              />
+            </View>
+          }
           contentContainerStyle={styles.scrollViewContent} 
           data={goals} 
           renderItem={({ item })=>{
@@ -98,5 +145,28 @@ const styles = StyleSheet.create({
 
   scrollViewContent: {
     alignItems: 'center',
+  },
+
+  goalListEmpty: {
+    color: "grey",
+    fontSize: 20,
+    padding: 50,
+  },
+
+  goalListHeader: {
+    color: "purple",
+    fontSize: 25,
+    padding: 20,
+  },
+
+  goalListFooter: {
+    fontSize: 12,
+    marginTop: 25,
+  },
+
+  itemSeparator: {
+    height: 1,
+    backgroundColor: "purple",
+    marginVertical: 10,
   },
 });

@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: "#ccc",
     borderRadius: 10,
-    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
   },
