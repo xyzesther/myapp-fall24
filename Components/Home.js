@@ -30,7 +30,7 @@ export default function Home({ navigation }) {
   }
 
   function goalPressHandler(pressedGoal) {
-    console.log("Goal Pressed");
+    console.log(pressedGoal);
     navigation.navigate('Details', { goalObj: pressedGoal });
   }
 
