@@ -3,7 +3,6 @@ import Home from './Components/Home';
 import GoalDetails from './Components/GoalDetails';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +19,7 @@ export default function App() {
           name="Home" 
           component={Home} 
           options={{
-            title: 'My Awesome App'
+            title: 'My App',
           }}
         />
         <Stack.Screen 
@@ -28,14 +27,14 @@ export default function App() {
           component={GoalDetails}
           options={({ navigation, route }) => ({
             title: route.params ? route.params.goalObj.text : "More Details",
-            headerRight: () => (
-              <Button
-                title="Warning"
-                onPress={() => {
-                  console.log("Warning");
-                }}
-              />
-            )
+            // headerRight: () => (
+            //   <Button
+            //     title="Warning"
+            //     onPress={() => {
+            //       console.log("Warning");
+            //     }}
+            //   />
+            // )
           })}
         />
       </Stack.Navigator>
