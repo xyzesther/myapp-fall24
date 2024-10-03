@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   goalListHeader: {
-    color: "purple",
+    color: "ba55d3",
     fontSize: 25,
     padding: 20,
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
 
   itemSeparator: {
     height: 1,
-    backgroundColor: "purple",
+    backgroundColor: "ba55d3",
     marginVertical: 10,
   },
 });

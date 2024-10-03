@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "purple",
+    color: "ba55d3",
     fontSize: 25,
     padding: 10,
   },
