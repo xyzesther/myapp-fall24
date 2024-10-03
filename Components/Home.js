@@ -31,9 +31,9 @@ export default function Home({ navigation }) {
     });
   }
 
-  function goalPressHandler() {
+  function goalPressHandler(pressedGoal) {
     console.log("Goal Pressed");
-    navigation.navigate('Details');
+    navigation.navigate('Details', { goalObj: pressedGoal });
   }
 
   function handleDeleteAllConfirm() {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
 
   scrollViewContent: {
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   goalListEmpty: {
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   goalListHeader: {
-    color: "ba55d3",
+    color: "purple",
     fontSize: 25,
     padding: 20,
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
 
   itemSeparator: {
     height: 1,
-    backgroundColor: "ba55d3",
+    backgroundColor: "purple",
     marginVertical: 10,
   },
 });

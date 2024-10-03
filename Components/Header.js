@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "purple",
     fontSize: 20,
-    borderColor: 'purple',
+    borderColor: "purple",
     borderWidth: 2,
     padding: 5,
     marginBottom: 10,

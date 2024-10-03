@@ -10,15 +10,15 @@ export default function GoalItem({ goalObj, handleDelete, handlePress }) {
       <Button 
         title="x" 
         onPress={() => {
-        handleDelete(goalObj.id);
-      }} color="grey" 
+          handleDelete(goalObj.id);
+        }} color="grey" 
       />
 
       <Button 
         title="i" 
         onPress={() => {
-        handlePress()
-      }} color="grey" 
+          handlePress(goalObj)
+        }} color="grey" 
       />
     </View>
   )
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "ba55d3",
+    color: "purple",
     fontSize: 25,
     padding: 10,
   },
