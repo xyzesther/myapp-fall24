@@ -10,14 +10,17 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {backgroundColor: '#ba55d3'},
+          headerTintColor: 'white',
+        }}
+      >
         <Stack.Screen 
           name="Home" 
           component={Home} 
           options={{
-            title: 'My Awesome App',
-            headerStyle: {backgroundColor: '#ba55d3'},
-            headerTintColor: 'white',
+            title: 'My Awesome App'
           }}
         />
         <Stack.Screen 
