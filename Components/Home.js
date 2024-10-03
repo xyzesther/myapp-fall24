@@ -7,7 +7,6 @@ import GoalItem from './GoalItem';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
-  const [receivedData, setReceivedData] = useState('');
   const [visibility, setVisibility] = useState(false);
   const [goals, setGoals] = useState([]);
 
@@ -17,7 +16,6 @@ export default function Home({ navigation }) {
     let newGoal = {text: data, id: Math.random()};
     // update the goals array with the new goal
     setGoals((prevGoals) => {return [...prevGoals, newGoal]});
-    setReceivedData(data);
     setVisibility(false);
   }
 
