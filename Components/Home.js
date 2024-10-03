@@ -5,7 +5,7 @@ import Input from './Input';
 import { useState } from 'react';
 import GoalItem from './GoalItem';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const appName = 'My First React Native App';
   const [receivedData, setReceivedData] = useState('');
   const [visibility, setVisibility] = useState(false);
@@ -29,6 +29,11 @@ export default function Home() {
     setGoals((prevGoals) => {
       return prevGoals.filter((goal) => goal.id !== deletedId);
     });
+  }
+
+  function goalPressHandler() {
+    console.log("Goal Pressed");
+    navigation.navigate('Details');
   }
 
   function handleDeleteAllConfirm() {
@@ -100,7 +105,11 @@ export default function Home() {
           data={goals} 
           renderItem={({ item })=>{
             return (
-              <GoalItem goalObj={item} handleDelete={goalDeleteHandler}/>
+              <GoalItem 
+                goalObj={item} 
+                handleDelete={goalDeleteHandler} 
+                handlePress={goalPressHandler}
+              />
             );
           }}/>
         {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
