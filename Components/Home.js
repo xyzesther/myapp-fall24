@@ -29,10 +29,10 @@ export default function Home({ navigation }) {
     });
   }
 
-  function goalPressHandler(pressedGoal) {
-    console.log("Goal Pressed")
-    navigation.navigate('Details', { goalObj: pressedGoal });
-  }
+  // function goalPressHandler(pressedGoal) {
+  //   console.log("Goal Pressed")
+  //   navigation.navigate('Details', { goalObj: pressedGoal });
+  // }
 
   function handleDeleteAllConfirm() {
     Alert.alert(
@@ -106,7 +106,7 @@ export default function Home({ navigation }) {
               <GoalItem 
                 goalObj={item} 
                 handleDelete={goalDeleteHandler} 
-                handlePress={goalPressHandler}
+                // handlePress={goalPressHandler}
               />
             );
           }}/>
