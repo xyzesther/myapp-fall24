@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 import PressableButton from './PressableButton';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
@@ -15,8 +15,9 @@ export default function GoalDetails({ navigation, route }) {
             setWarningPressed(true);
           }}
           componentStyle={styles.warningButton}
+          pressedStyle={styles.warningButton}
         >
-          <MaterialIcons name="warning" size={24} color="black" />
+          <Ionicons name="warning-outline" size={24} color="yellow" />
         </PressableButton>
       )
     });
