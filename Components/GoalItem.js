@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import PressableButton from './PressableButton';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-export default function GoalItem({ goalObj, handleDelete }) {
+export default function GoalItem({ goalObj, handleDelete, onPressIn, onPressOut }) {
   const navigation = useNavigation();
   
   return (
@@ -29,6 +29,8 @@ export default function GoalItem({ goalObj, handleDelete }) {
               },
             ]);
           }}
+          onPressIn={onPressIn}
+          onPressOut={onPressOut}
         >
         <Text style={styles.text}>
           {goalObj.text}
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
   },
 
   deleteContainer: {
-    backgroundColor: "transparent",
+    backgroundColor: "lightgrey",
     borderRadius: 5,
     padding: 5,
   },

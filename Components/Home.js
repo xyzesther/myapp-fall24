@@ -86,8 +86,11 @@ export default function Home({ navigation }) {
               My Goal List
             </Text>
           }
-          ItemSeparatorComponent={
-            <View style={styles.itemSeparator}/>  
+          ItemSeparatorComponent={({ highlighted }) => 
+            <View style={[
+              styles.itemSeparator, 
+              highlighted && {backgroundColor: "purple"}
+            ]}/>
           }
           ListFooterComponent={ goals.length > 0 &&
             <View style={styles.goalListFooter}>
@@ -99,14 +102,15 @@ export default function Home({ navigation }) {
           }
           contentContainerStyle={styles.scrollViewContent} 
           data={goals} 
-          renderItem={({ item })=>{
-            return (
-              <GoalItem 
-                goalObj={item} 
-                handleDelete={goalDeleteHandler} 
-              />
-            );
-          }}/>
+          renderItem={({ item, separators }) => (
+            <GoalItem 
+              goalObj={item} 
+              handleDelete={goalDeleteHandler}
+              onPressIn={() => {separators.highlight()}}
+              onPressOut={() => {separators.unhighlight()}}
+            />
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -153,8 +157,8 @@ const styles = StyleSheet.create({
   },
 
   itemSeparator: {
-    height: 1,
-    backgroundColor: "purple",
+    height: 2,
+    backgroundColor: "grey",
     marginVertical: 10,
   },
 
