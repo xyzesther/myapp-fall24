@@ -1,6 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 import PressableButton from './PressableButton';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
@@ -9,12 +10,14 @@ export default function GoalDetails({ navigation, route }) {
     navigation.setOptions({
       title: warningPressed ? "Warning!" : (route.params ? route.params.goalObj.text : "More Details"),
       headerRight: () => (
-        <Button
-          title="Warning"
-          onPress={() => {
+        <PressableButton
+          pressedFunction={() => {
             setWarningPressed(true);
           }}
-        />
+          componentStyle={styles.warningButton}
+        >
+          <MaterialIcons name="warning" size={24} color="black" />
+        </PressableButton>
       )
     });
   }, [navigation, warningPressed, route.params]);
@@ -69,5 +72,8 @@ const styles = StyleSheet.create({
     color: "blue",
     fontSize: 16,
   },
+  warningButton: {
+    backgroundColor: "transparent",
+  }
 
 })
