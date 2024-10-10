@@ -9,7 +9,7 @@ export default function GoalItem({ goalObj, handleDelete, handlePress }) {
       <View style={styles.textContainer}>
         <Pressable
           android_ripple={{ color: "white" }}
-          style={(pressed) => { 
+          style={({ pressed }) => { 
             return [styles.horizontalContainer, pressed && styles.pressedStyle]
           }}
           onPress={() => {
@@ -32,7 +32,6 @@ export default function GoalItem({ goalObj, handleDelete, handlePress }) {
 
 const styles = StyleSheet.create({
   textContainer: {
-    backgroundColor: "#ccc",
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
   horizontalContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "lightblue",
+    backgroundColor: "white",
   },
 
   text: {
