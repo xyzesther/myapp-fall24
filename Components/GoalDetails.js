@@ -1,5 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
+import PressableButton from './PressableButton';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
@@ -8,12 +10,15 @@ export default function GoalDetails({ navigation, route }) {
     navigation.setOptions({
       title: warningPressed ? "Warning!" : (route.params ? route.params.goalObj.text : "More Details"),
       headerRight: () => (
-        <Button
-          title="Warning"
-          onPress={() => {
+        <PressableButton
+          pressedFunction={() => {
             setWarningPressed(true);
           }}
-        />
+          componentStyle={styles.warningButton}
+          pressedStyle={styles.warningButton}
+        >
+          <Ionicons name="warning-outline" size={24} color="yellow" />
+        </PressableButton>
       )
     });
   }, [navigation, warningPressed, route.params]);
@@ -31,12 +36,14 @@ export default function GoalDetails({ navigation, route }) {
         </Text>
       )}
       <View style={warningPressed ? (styles.warningText) : (styles.text)}>
-        <Button
-          title="More Details"
-          onPress={() => {
+        <PressableButton
+          pressedFunction={() => {
             navigation.push("Details");
           }}
-        />
+          componentStyle={styles.button}
+        >
+          <Text style={styles.buttonText}>More Details</Text>
+        </PressableButton>
       </View>
     </View>
   )
@@ -55,4 +62,19 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
   },
+  button: {
+    backgroundColor: "lightblue",
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "blue",
+    fontSize: 16,
+  },
+  warningButton: {
+    backgroundColor: "transparent",
+  }
+
 })

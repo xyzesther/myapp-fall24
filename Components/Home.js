@@ -4,6 +4,7 @@ import Header from './Header';
 import Input from './Input';
 import { useState } from 'react';
 import GoalItem from './GoalItem';
+import PressableButton from './PressableButton';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
@@ -28,11 +29,6 @@ export default function Home({ navigation }) {
       return prevGoals.filter((goal) => goal.id !== deletedId);
     });
   }
-
-  // function goalPressHandler(pressedGoal) {
-  //   console.log("Goal Pressed")
-  //   navigation.navigate('Details', { goalObj: pressedGoal });
-  // }
 
   function handleDeleteAllConfirm() {
     Alert.alert(
@@ -63,12 +59,14 @@ export default function Home({ navigation }) {
       <StatusBar style="auto" />
       <View style={styles.topView}>
         <Header name={appName} />
-        <Button 
-          title="Add A Goal" 
-          onPress={() => {
+        <PressableButton 
+          pressedFunction={() => {
             setVisibility(true);
-          }} 
-        />
+          }}
+          componentStyle={styles.addGoalButton} 
+        >
+          <Text style={styles.addGoalButtonText}>Add A Goal</Text>
+        </PressableButton>
       </View>
       <Input 
         textInputFocus={true} 
@@ -106,26 +104,9 @@ export default function Home({ navigation }) {
               <GoalItem 
                 goalObj={item} 
                 handleDelete={goalDeleteHandler} 
-                // handlePress={goalPressHandler}
               />
             );
           }}/>
-        {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          {goals.map((goal) => {
-            return (
-              <View key={goal.id} style={styles.textContainer}>
-                <Text style={styles.text}>
-                  {goal.text}
-                </Text>
-              </View>
-            );
-          })}
-        </ScrollView> */}
-        {/* <View style={styles.textContainer}>
-          <Text style={styles.text}>
-            {receivedData}
-          </Text>
-        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -175,5 +156,17 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "purple",
     marginVertical: 10,
+  },
+
+  addGoalButton: {
+    padding: 10,
+    margin: 10,
+    backgroundColor: "#dcd",
+    borderRadius: 3,
+  },
+
+  addGoalButtonText: {
+    color: "purple",
+    fontSize: 24,
   },
 });
