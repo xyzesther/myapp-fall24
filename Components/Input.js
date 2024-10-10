@@ -7,7 +7,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
   const [showCount, setShowCount] = useState(true);
   const [message, setMessage] = useState('');
   const [isConfirmEnabled, setIsConfirmEnabled] = useState(false);
-  const minCharacters = 5;
+  const minCharacters = 3;
 
 
   const updateText = (changedText) => {
@@ -17,8 +17,8 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
 
   const handleBlur = () => {
     setShowCount(false);
-    if (text.length < 3) {
-      setMessage('Please type more than 3 characters');
+    if (text.length < minCharacters) {
+      setMessage(`Please type more than ${minCharacters} characters`);
     } else {
       setMessage('Thank you');
     }
