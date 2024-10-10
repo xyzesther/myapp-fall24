@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
 
   defaultPressedStyle: {
     backgroundColor: "lightblue",
-    opacity: 0.5,
+    opacity: 0.2,
   }
 })
