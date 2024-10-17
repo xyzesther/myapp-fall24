@@ -2,21 +2,42 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, SafeAreaView, FlatList, Alert } from 'react-native';
 import Header from './Header';
 import Input from './Input';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GoalItem from './GoalItem';
 import PressableButton from './PressableButton';
+import { database } from '../Firebase/firebaseSetup';
+import { deleteFromDB, writeToDB, deleteAllFromDB } from '../Firebase/firestoreHelper';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
   const [visibility, setVisibility] = useState(false);
   const [goals, setGoals] = useState([]);
+  const collectionName = 'goals';
+
+  useEffect(() => {
+    // querySnapshot is a list of documentSnapshots
+    onSnapshot(collection(database, collectionName), (querySnapshot) => {
+      // Define an empty array to store the goals
+      let arrayOfGoals = [];
+      querySnapshot.forEach((docSnapshot) => {
+        // populate the goals array with the data from the database
+        arrayOfGoals.push({ ...docSnapshot.data(), id: docSnapshot.id });
+        console.log(docSnapshot.id);
+      });
+      // Set the goals array to the goals array
+      setGoals(arrayOfGoals);
+    });
+  }, []); 
 
   function handleInputData(data) {
     console.log("App ", data);
     // declare a new JS object to store the goal
-    let newGoal = {text: data, id: Math.random()};
+    let newGoal = { text: data };
+    // Add the new goal to the database, call writeToDB
+    writeToDB(newGoal, collectionName);
     // update the goals array with the new goal
-    setGoals((prevGoals) => {return [...prevGoals, newGoal]});
+    // setGoals((prevGoals) => {return [...prevGoals, newGoal]});
     setVisibility(false);
   }
 
@@ -25,9 +46,10 @@ export default function Home({ navigation }) {
   }
 
   function goalDeleteHandler(deletedId) {
-    setGoals((prevGoals) => {
-      return prevGoals.filter((goal) => goal.id !== deletedId);
-    });
+    deleteFromDB(collectionName, deletedId);
+    // setGoals((prevGoals) => {
+    //   return prevGoals.filter((goal) => goal.id !== deletedId);
+    // });
   }
 
   function handleDeleteAllConfirm() {
@@ -42,16 +64,12 @@ export default function Home({ navigation }) {
         {
           text: 'Yes',
           onPress: () => {
-            deleteAllHandler();
+            deleteAllFromDB(collectionName);
           },
         },
         {cancelable: false}
       ]
     );
-  }
-
-  function deleteAllHandler() {
-    setGoals([]);
   }
 
   return (
