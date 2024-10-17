@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, View, Pressable } from 'react-native'
 import React from 'react'
 
 export default function PressableButton({ pressedFunction, componentStyle, pressedStyle, children }) {
@@ -17,7 +17,7 @@ export default function PressableButton({ pressedFunction, componentStyle, press
       }}
     >
       <View>
-        <Text>{children}</Text>
+        {children}
       </View>
     </Pressable>
   )
