@@ -1,31 +1,35 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PressableButton from './PressableButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { setWarningInDB } from '../Firebase/firestoreHelper';
+import GoalUsers from './GoalUsers';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: warningPressed ? "Warning!" : (route.params ? route.params.goalObj.text : "More Details"),
-      headerRight: () => (
-        <PressableButton
-          pressedFunction={async () => {
-            setWarningPressed(true);
-            await setWarningInDB('goals', route.params.goalObj.id);
-          }}
-          componentStyle={styles.warningButton}
-          pressedStyle={styles.warningButton}
-        >
-          <Ionicons name="warning-outline" size={24} color="yellow" />
-        </PressableButton>
-      )
-    });
-  }, [navigation, warningPressed, route.params]);
+  function warningHandler() {
+    setWarningPressed(true);
+    navigation.setOptions({ title: "Warning!" });
+    setWarningInDB('goals', route.params.goalObj.id, { warning: true });
+  }
 
-  console.log(route);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <PressableButton
+            pressedFunction={warningHandler}
+            componentStyle={styles.warningButton}
+            pressedStyle={styles.warningButton}
+          >
+            <Ionicons name="warning-outline" size={24} color="yellow" />
+          </PressableButton>
+        );
+      },  
+    });
+  }, []);
+
   return (
     <View>
       {route.params ? (
@@ -47,6 +51,7 @@ export default function GoalDetails({ navigation, route }) {
           <Text style={styles.buttonText}>More Details</Text>
         </PressableButton>
       </View>
+      {route.params && <GoalUsers goalId={route.params.goalObj.id} />}
     </View>
   )
 }

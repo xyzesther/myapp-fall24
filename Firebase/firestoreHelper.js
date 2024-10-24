@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { database } from './firebaseSetup';
 
 export async function writeToDB(data, collectionName) {
@@ -10,9 +10,11 @@ export async function writeToDB(data, collectionName) {
   }
 };
 
-export function deleteFromDB(collectionName, deletedId) {
+export async function deleteFromDB(collectionName, deletedId) {
   try {
-    deleteDoc(doc(database, collectionName, deletedId));
+    await deleteDoc(doc(database, collectionName, deletedId));
+    // we have to also delete all docs in the users subcollection
+    deleteAllFromDB(`goals/${deletedId}/users`);
   } catch (error) {
     console.log("Error deleting from DB: ", error);
   }
@@ -24,16 +26,30 @@ export async function deleteAllFromDB(collectionName) {
     querySnapshot.forEach((docSnapshot) => {
       deleteFromDB(collectionName, docSnapshot.id);
     });
+    // delete all docs in users subcollection
+    // deleteAllFromDB(`${collectionName}/users`);
   } catch (error) {
     console.log("Error deleting all from DB: ", error);
   }
 }
 
-export async function setWarningInDB(collectionName, warningGoalId) {
+export async function setWarningInDB(collectionName, warningGoalId, data) {
   try {
-    const docRef = doc(database, collectionName, warningGoalId);
-    await updateDoc(docRef, { warning: true });
+    await setDoc(doc(database, collectionName, warningGoalId), data, { merge: true });
   } catch (error) {
     console.log("Error setting warning: ", error);
+  }
+}
+
+export async function readAllDocs(collectionName) {
+  try {
+    const querySnapshot = await getDocs(collection(database, collectionName));
+    let arrayOfDocs = [];
+    querySnapshot.forEach((docSnapshot) => {
+      arrayOfDocs.push(docSnapshot.data());
+    });
+    return arrayOfDocs;
+  } catch (error) {
+    console.log("Error reading all docs: ", error);
   }
 }
