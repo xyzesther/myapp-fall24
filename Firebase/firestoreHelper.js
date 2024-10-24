@@ -37,3 +37,16 @@ export async function setWarningInDB(collectionName, warningGoalId) {
     console.log("Error setting warning: ", error);
   }
 }
+
+export async function readAllDocs(collectionName) {
+  try {
+    const querySnapshot = await getDocs(collection(database, collectionName));
+    let arrayOfDocs = [];
+    querySnapshot.forEach((docSnapshot) => {
+      arrayOfDocs.push(docSnapshot.data());
+    });
+    return arrayOfDocs;
+  } catch (error) {
+    console.log("Error reading all docs: ", error);
+  }
+}
