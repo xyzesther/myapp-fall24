@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { database } from './firebaseSetup';
 
 export async function writeToDB(data, collectionName) {
@@ -13,6 +13,7 @@ export async function writeToDB(data, collectionName) {
 export async function deleteFromDB(collectionName, deletedId) {
   try {
     await deleteDoc(doc(database, collectionName, deletedId));
+    // we have to also delete all docs in the users subcollection
     deleteAllFromDB(`goals/${deletedId}/users`);
   } catch (error) {
     console.log("Error deleting from DB: ", error);
@@ -25,6 +26,8 @@ export async function deleteAllFromDB(collectionName) {
     querySnapshot.forEach((docSnapshot) => {
       deleteFromDB(collectionName, docSnapshot.id);
     });
+    // delete all docs in users subcollection
+    // deleteAllFromDB(`${collectionName}/users`);
   } catch (error) {
     console.log("Error deleting all from DB: ", error);
   }
