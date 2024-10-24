@@ -30,7 +30,6 @@ export default function GoalDetails({ navigation, route }) {
     });
   }, []);
 
-  console.log(route);
   return (
     <View>
       {route.params ? (
