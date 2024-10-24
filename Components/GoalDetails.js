@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PressableButton from './PressableButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { setWarningInDB } from '../Firebase/firestoreHelper';
+import GoalUsers from './GoalUsers';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       title: warningPressed ? "Warning!" : (route.params ? route.params.goalObj.text : "More Details"),
       headerRight: () => (
@@ -47,6 +48,7 @@ export default function GoalDetails({ navigation, route }) {
           <Text style={styles.buttonText}>More Details</Text>
         </PressableButton>
       </View>
+      <GoalUsers goalId={route.params.goalObj.id}/>
     </View>
   )
 }
