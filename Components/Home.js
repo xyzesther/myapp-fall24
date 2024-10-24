@@ -17,7 +17,7 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     // querySnapshot is a list of documentSnapshots
-    onSnapshot(collection(database, collectionName), (querySnapshot) => {
+    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapshot) => {
       // Define an empty array to store the goals
       let arrayOfGoals = [];
       querySnapshot.forEach((docSnapshot) => {
@@ -28,6 +28,7 @@ export default function Home({ navigation }) {
       // Set the goals array to the goals array
       setGoals(arrayOfGoals);
     });
+    return () => unsubscribe();
   }, []); 
 
   function handleInputData(data) {

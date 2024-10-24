@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 import PressableButton from './PressableButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { setWarningInDB } from '../Firebase/firestoreHelper';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
@@ -11,8 +12,9 @@ export default function GoalDetails({ navigation, route }) {
       title: warningPressed ? "Warning!" : (route.params ? route.params.goalObj.text : "More Details"),
       headerRight: () => (
         <PressableButton
-          pressedFunction={() => {
+          pressedFunction={async () => {
             setWarningPressed(true);
+            await setWarningInDB('goals', route.params.goalObj.id);
           }}
           componentStyle={styles.warningButton}
           pressedStyle={styles.warningButton}
