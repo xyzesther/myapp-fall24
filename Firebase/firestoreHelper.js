@@ -10,9 +10,10 @@ export async function writeToDB(data, collectionName) {
   }
 };
 
-export function deleteFromDB(collectionName, deletedId) {
+export async function deleteFromDB(collectionName, deletedId) {
   try {
-    deleteDoc(doc(database, collectionName, deletedId));
+    await deleteDoc(doc(database, collectionName, deletedId));
+    deleteAllFromDB(`goals/${deletedId}/users`);
   } catch (error) {
     console.log("Error deleting from DB: ", error);
   }

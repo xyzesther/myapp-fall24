@@ -48,7 +48,7 @@ export default function GoalDetails({ navigation, route }) {
           <Text style={styles.buttonText}>More Details</Text>
         </PressableButton>
       </View>
-      <GoalUsers goalId={route.params.goalObj.id}/>
+      {route.params && <GoalUsers goalId={route.params.goalObj.id} />}
     </View>
   )
 }
