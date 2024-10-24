@@ -14,13 +14,17 @@ export default function GoalUsers({ goalId }) {
           setUsers(
             dataFromDB.map((user) => {
               return user.name;
-            }
-          ))
+            })
+          );
+          return;
         }
+        // if not then proceed with fetching from fake API
+        console.log("data from API");
+
         const response = await fetch(
           'https://jsonplaceholder.typicode.com/users'
         );
-        console.log(response.status);
+        
         if (!response.ok) {
           throw new Error(`HTTP error happened with status ${response.status}`);
         }
@@ -30,8 +34,12 @@ export default function GoalUsers({ goalId }) {
         data.forEach((user)=>{
           writeToDB(user, `goals/${goalId}/users`);
         })
-        // Store the data to get 10 user names to display on the details screen
-        setUsers(data);
+        setUsers(
+          data.map((user) => {
+            return user.name;
+          })
+        );
+        // setUsers(data);
       } catch (error) {
         console.log("fetch users data ", error);
       }
@@ -43,10 +51,9 @@ export default function GoalUsers({ goalId }) {
     <View>
       <FlatList
         data={users}
-        keyExtractor={(users) => users.id}
-        renderItem={({ item }) => (
-          <Text>{item.name}</Text>
-        )}
+        renderItem={({ item }) => {
+          return <Text>{item}</Text>;
+        }}
       />
     </View>
   )
