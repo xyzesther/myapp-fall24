@@ -30,10 +30,9 @@ export async function deleteAllFromDB(collectionName) {
   }
 }
 
-export async function setWarningInDB(collectionName, warningGoalId) {
+export async function setWarningInDB(collectionName, warningGoalId, data) {
   try {
-    const docRef = doc(database, collectionName, warningGoalId);
-    await updateDoc(docRef, { warning: true });
+    await setDoc(doc(database, collectionName, warningGoalId), data, { merge: true });
   } catch (error) {
     console.log("Error setting warning: ", error);
   }
