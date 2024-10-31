@@ -57,19 +57,21 @@ const AppStack = (
       options={({ navigation }) => {
         return {
           headerRight: () => {
-            <PressableButton
-              pressedFunction={() => {
-                try {
-                  signOut(auth)
+            return (
+                <PressableButton
+                pressedFunction={() => {
+                  try {
+                    signOut(auth)
+                  }
+                  catch(error) {
+                    console.log('Sign out Error: ', error.code);
+                  }}
                 }
-                catch(error) {
-                  console.log('Sign out Error: ', error.code);
-                }}
-              }
-              componentStyle={{backgroundColor: 'transparent', marginRight: 10}}
-            >
-              <AntDesign name="logout" size={24} color="white" />
-            </PressableButton>
+                componentStyle={{backgroundColor: 'transparent', marginRight: 10}}
+              >
+                <AntDesign name="logout" size={24} color="white" />
+              </PressableButton>
+            )
           },
         }
       }}
