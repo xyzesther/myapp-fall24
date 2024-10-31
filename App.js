@@ -5,8 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Signup from './Components/Signup';
 import Login from './Components/Login';
+import Profile from './Components/Profile';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase/firebaseSetup';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import PressableButton from './Components/PressableButton';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +25,19 @@ const AppStack = (
     <Stack.Screen 
       name="Home" 
       component={Home} 
-      options={{
-        title: 'My App',
-      }}
+      options={({ navigation, route }) => {
+        return {
+          title: 'My App',
+          headerRight: () => (
+            <PressableButton
+              pressedFunction={() => navigation.navigate('Profile')}
+              componentStyle={{backgroundColor: 'transparent', marginRight: 10}}
+            >
+              <MaterialCommunityIcons name="face-man-profile" size={24} color="white" />
+            </PressableButton>
+          ),
+        }}
+      }
     />
     <Stack.Screen 
       name="Details" 
@@ -32,6 +45,10 @@ const AppStack = (
       options={({ navigation, route }) => ({
       title: route.params ? route.params.goalObj.text : "More Details",
       })}
+    />
+    <Stack.Screen
+      name="Profile"
+      component={Profile}
     />
   </>
 );
