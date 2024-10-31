@@ -8,30 +8,35 @@ export default function Signup({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const loginHandler = () => {
+    // go to login
+    navigation.replace("Login");
+  };
+
   const signupHandler = async () => {
     // do some validation
     // no empty fields
     // password and confirm password should match
     // valid email address
-    if (!email || !password || !confirmPassword) {
-      Alert.alert('Please fill in all the fields');
-      return;
-    }
-    if (password !== confirmPassword) {
-      Alert.alert('Password and confirm password should match');
-      return;
-    }
-    if (password.length < 6) {
-      Alert.alert('Password should be at least 6 characters');
-      return;
-    }
-    const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
-    if (emailRegex.test(email) === false) {
-      Alert.alert('Please enter a valid email address');
-      return;
-    }
-    // create a new user
     try {
+      if (!email || !password || !confirmPassword) {
+        Alert.alert('Please fill in all the fields');
+        return;
+      }
+      if (password !== confirmPassword) {
+        Alert.alert('Password and confirm password should match');
+        return;
+      }
+      if (password.length < 6) {
+        Alert.alert('Password should be at least 6 characters');
+        return;
+      }
+      const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+      if (emailRegex.test(email) === false) {
+        Alert.alert('Please enter a valid email address');
+        return;
+      }
+      // create a new user
       const userCred = await createUserWithEmailAndPassword(
         auth, 
         email, 
@@ -40,6 +45,11 @@ export default function Signup({ navigation }) {
       console.log(userCred);
     } catch (error) {
       console.log('Signup Error: ', error.code);
+      // tell user if an error happens
+      if (err.code === "auth/weak-password") {
+        Alert.alert("Your password should be at least    6 characters");
+      }
+      Alert.alert(err.message);
     }
   };
 
@@ -50,28 +60,34 @@ export default function Signup({ navigation }) {
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={(changedText) => setEmail(changedText)}
+        onChangeText={(changedText) => {
+          setEmail(changedText);
+        }}
       />
       <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
-        onChangeText={(changedText) => setPassword(changedText)}
-        secureTextEntry
+        onChangeText={(changedText) => {
+          setPassword(changedText);
+        }}
+        secureTextEntry={true}
       />
       <Text style={styles.label}>Confirm Password</Text>
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
         value={confirmPassword}
-        onChangeText={(changedText) => setConfirmPassword(changedText)}
-        secureTextEntry
+        onChangeText={(changedText) => {
+          setConfirmPassword(changedText);
+        }}
+        secureTextEntry={true}
       />
-      <Button title="Signup" onPress={signupHandler} />
+      <Button title="Register" onPress={signupHandler} />
       <Button
         title="Already Registered? Login" 
-        onPress={() => navigation.navigate('Login')}
+        onPress={loginHandler}
       />
     </View>
   )
@@ -85,14 +101,14 @@ const styles = StyleSheet.create({
   },
   
   label: {
-    fontSize: 20,
-    padding: 10,
+    marginLeft: 10,
   },
 
   input: {
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
     margin: 10,
+    width: '90%',
   },
 })

@@ -1,25 +1,27 @@
-import { Button, StyleSheet, Text, View, TextInput } from 'react-native'
+import { Button, StyleSheet, Text, View, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../Firebase/firebaseSetup';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const signupHandler = () => {
+    // go to signup
+    navigation.replace("Signup");
+  };
+
   const LoginHandler = async () => {
     // do some validation
     // no empty fields
     // valid email address
-    if (!email || !password) {
-      Alert.alert('Please fill in all the fields');
-      return;
-    }
-    if (emailRegex.test(email) === false) {
-      Alert.alert('Please enter a valid email address');
-      return;
-    }
-    // login the user
     try {
+      if (!email || !password) {
+        Alert.alert('Please fill in all the fields');
+        return;
+      }
+      // login the user
       const userCred = await signInWithEmailAndPassword(
         auth, 
         email, 
@@ -27,7 +29,7 @@ export default function Login({ navigation }) {
       );
       console.log(userCred.user);
     } catch (error) {
-      console.log('Login Error: ', error.code);
+      Alert.alert('Login Error: ', error.code);
     }
   }
 
@@ -38,20 +40,27 @@ export default function Login({ navigation }) {
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(changedText) => {
+          setEmail(changedText);
+        }}
       />
       <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(changedText) => {
+          setPassword(changedText);
+        }}
         secureTextEntry
       />
-      <Button title="Login" onPress={LoginHandler} />
+      <Button 
+        title="Login" 
+        onPress={LoginHandler} 
+      />
       <Button
         title="New User? Create an Account" 
-        onPress={() => navigation.navigate('Signup')}
+        onPress={signupHandler}
       />
     </View>
   )
