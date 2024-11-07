@@ -7,7 +7,8 @@ import GoalItem from './GoalItem';
 import PressableButton from './PressableButton';
 import { database } from '../Firebase/firebaseSetup';
 import { deleteFromDB, writeToDB, deleteAllFromDB } from '../Firebase/firestoreHelper';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { auth } from '../Firebase/firebaseSetup';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
@@ -17,7 +18,8 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     // querySnapshot is a list of documentSnapshots
-    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapshot) => {
+    const q = query(collection(database, collectionName),where("owner", "==", auth.currentUser.uid));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       // Define an empty array to store the goals
       let arrayOfGoals = [];
       querySnapshot.forEach((docSnapshot) => {
@@ -27,7 +29,13 @@ export default function Home({ navigation }) {
       });
       // Set the goals array to the goals array
       setGoals(arrayOfGoals);
-    });
+    },
+    
+    (error) => {
+      console.log("Error reading data: ", error);
+      Alert.alert(error.message);
+    }
+  );
     return () => unsubscribe();
   }, []); 
 
@@ -35,6 +43,7 @@ export default function Home({ navigation }) {
     console.log("App ", data);
     // declare a new JS object to store the goal
     let newGoal = { text: data };
+    newGoal = {...newGoal, owner: auth.currentUser.uid};
     // Add the new goal to the database, call writeToDB
     writeToDB(newGoal, collectionName);
     // update the goals array with the new goal
