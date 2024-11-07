@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, View, Text, Button, Modal, Alert, Image } from 'react-native'
 import React, { useState } from 'react'
 import lab2_logo from '../assets/lab2_logo.png'
+import ImageManager from './ImageManager';
 
 export default function Input({textInputFocus, inputHandler, modalVisible, cancelHandler}) {
   const [text, setText] = useState('');
@@ -81,6 +82,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
             onBlur={handleBlur}
             onFocus={handleFocus}
           />
+          <ImageManager />
           {showCount && text.length > 0 && (
             <Text style={styles.count}>
               Characters Typed: {text.length}
