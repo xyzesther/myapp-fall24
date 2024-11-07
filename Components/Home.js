@@ -5,11 +5,10 @@ import Input from './Input';
 import { useState, useEffect } from 'react';
 import GoalItem from './GoalItem';
 import PressableButton from './PressableButton';
-import { database } from '../Firebase/firebaseSetup';
+import { auth, database, storage } from '../Firebase/firebaseSetup';
 import { deleteFromDB, writeToDB, deleteAllFromDB } from '../Firebase/firestoreHelper';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { auth } from '../Firebase/firebaseSetup';
-import { ref } from 'firebase/storage';
+import { ref, uploadBytesResumable } from 'firebase/storage';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
@@ -48,7 +47,7 @@ export default function Home({ navigation }) {
       }
       const blob = await response.blob();
       const imageName = imageUri.substring(uri.lastIndexOf('/') + 1);
-      const imageRef = await ref(storage, `images/${imageName}`)
+      const imageRef = ref(storage, `images/${imageName}`)
       const uploadResult = await uploadBytesResumable(imageRef, blob);
       console.log("Upload result: ", uploadResult);
     } catch (error) {
