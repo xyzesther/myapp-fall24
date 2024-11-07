@@ -9,7 +9,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
   const [message, setMessage] = useState('');
   const [isConfirmEnabled, setIsConfirmEnabled] = useState(false);
   const minCharacters = 3;
-
+  const [imageUri, setImageUri] = useState("");
 
   const updateText = (changedText) => {
     setText(changedText);
@@ -30,8 +30,13 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
     setMessage('');
   }
 
+  function receiveImageUri(imageUri) {
+    setImageUri(imageUri);
+  }
+
   const handleConfirm = () => {
-    inputHandler(text);
+    // also send back the imageUri
+    inputHandler({ text, imageUri });
     setText('');
     setIsConfirmEnabled(false);
   }
@@ -82,7 +87,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
             onBlur={handleBlur}
             onFocus={handleFocus}
           />
-          <ImageManager />
+          <ImageManager receivedImageUri={receiveImageUri}/>
           {showCount && text.length > 0 && (
             <Text style={styles.count}>
               Characters Typed: {text.length}

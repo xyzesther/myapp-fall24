@@ -39,10 +39,11 @@ export default function Home({ navigation }) {
     return () => unsubscribe();
   }, []); 
 
+  // data now is an object with text and imageUri property
   function handleInputData(data) {
     console.log("App ", data);
     // declare a new JS object to store the goal
-    let newGoal = { text: data };
+    let newGoal = { text: data.text };
     newGoal = {...newGoal, owner: auth.currentUser.uid};
     // Add the new goal to the database, call writeToDB
     writeToDB(newGoal, collectionName);
