@@ -9,6 +9,7 @@ import { database } from '../Firebase/firebaseSetup';
 import { deleteFromDB, writeToDB, deleteAllFromDB } from '../Firebase/firestoreHelper';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth } from '../Firebase/firebaseSetup';
+import { ref } from 'firebase/storage';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
@@ -39,9 +40,27 @@ export default function Home({ navigation }) {
     return () => unsubscribe();
   }, []); 
 
+  async function handleImageData(imageUri) {
+    try {
+      const response = await fetch(imageUri);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const blob = await response.blob();
+      const imageName = imageUri.substring(uri.lastIndexOf('/') + 1);
+      const imageRef = await ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+      console.log("Upload result: ", uploadResult);
+    } catch (error) {
+      console.log("Error handling image data: ", error);
+    }
+  }
   // data now is an object with text and imageUri property
   function handleInputData(data) {
     console.log("App ", data);
+    if (data.imageUri) {
+      handleImageData(data.imageUri);
+    }
     // declare a new JS object to store the goal
     let newGoal = { text: data.text };
     newGoal = {...newGoal, owner: auth.currentUser.uid};
