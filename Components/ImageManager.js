@@ -2,15 +2,18 @@ import { Button, StyleSheet, View, Image } from 'react-native'
 import React, {useState} from 'react'
 import * as ImagePicker from 'expo-image-picker'
 
-export default function ImageManager({receiveImageUri}) {
+export default function ImageManager({ receiveImageUri }) {
   const [response, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = useState("");
-  console.log(response);
+
   async function verifyPermission() {
+    // check if user has granted permission return true
     try {
       if (response.granted) {
         return true;
-      } 
+      }
+      //else ask for permission
+      //return the granted property of the response 
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
     } catch (error) {
@@ -28,7 +31,7 @@ export default function ImageManager({receiveImageUri}) {
       
       const result = ImagePicker.launchCameraAsync({
         allowsEditing: true,
-      })
+      });
       if (!result.cancelled) {
         setImageUri(result.assets[0].uri);
         // imageUri is still empty string here
