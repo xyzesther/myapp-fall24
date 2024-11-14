@@ -47,10 +47,11 @@ export default function Home({ navigation }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const blob = await response.blob();
-      const imageName = imageUri.substring(uri.lastIndexOf('/') + 1);
+      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
       const imageRef = ref(storage, `images/${imageName}`)
       const uploadResult = await uploadBytesResumable(imageRef, blob);
-      console.log("Upload result: ", uploadResult.metadata.fullPath);
+      uploadURl = uploadResult.metadata.fullPath;
+      return uploadURl;
     } catch (error) {
       console.log("Error handling image data: ", error);
     }

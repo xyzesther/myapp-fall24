@@ -87,7 +87,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
             onBlur={handleBlur}
             onFocus={handleFocus}
           />
-          <ImageManager receivedImageUri={receiveImageUri}/>
+          <ImageManager receiveImageUri={receiveImageUri}/>
           {showCount && text.length > 0 && (
             <Text style={styles.count}>
               Characters Typed: {text.length}
