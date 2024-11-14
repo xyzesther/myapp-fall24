@@ -39,30 +39,36 @@ export default function Home({ navigation }) {
     return () => unsubscribe();
   }, []); 
 
-  async function handleImageData(imageUri) {
+  async function handleImageData(uri) {
     try {
-      const response = await fetch(imageUri);
+      let uploadURl = "";
+      const response = await fetch(uri);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const blob = await response.blob();
-      const imageName = imageUri.substring(uri.lastIndexOf('/') + 1);
+      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
       const imageRef = ref(storage, `images/${imageName}`)
       const uploadResult = await uploadBytesResumable(imageRef, blob);
-      console.log("Upload result: ", uploadResult);
+      uploadURl = uploadResult.metadata.fullPath;
+      return uploadURl;
     } catch (error) {
       console.log("Error handling image data: ", error);
     }
   }
   // data now is an object with text and imageUri property
-  function handleInputData(data) {
+  async function handleInputData(data) {
     console.log("App ", data);
+    let imageUri = "";
     if (data.imageUri) {
-      handleImageData(data.imageUri);
+      imageUri = await handleImageData(data.imageUri);
     }
     // declare a new JS object to store the goal
     let newGoal = { text: data.text };
     newGoal = {...newGoal, owner: auth.currentUser.uid};
+    if (data.imageUri) {
+      newGoal = {...newGoal, imageUri: imageUri};
+    }
     // Add the new goal to the database, call writeToDB
     writeToDB(newGoal, collectionName);
     // update the goals array with the new goal

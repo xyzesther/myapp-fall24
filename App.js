@@ -11,6 +11,7 @@ import { auth } from './Firebase/firebaseSetup';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PressableButton from './Components/PressableButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Map from './Components/Map';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +74,15 @@ const AppStack = (
               </PressableButton>
             )
           },
+        }
+      }}
+    />
+    <Stack.Screen
+      name="Map"
+      component={Map}
+      options={({ navigation, route }) => {
+        return {
+          title: route.params ? route.params.goalObj.text : "Map",
         }
       }}
     />
