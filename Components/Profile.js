@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { auth } from "../Firebase/firebaseSetup";
+import LocationManager from './LocationManager';
 
 export default function Profile() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Email: {auth.currentUser.email}</Text>
       <Text style={styles.text}>UID: {auth.currentUser.uid}</Text>
+      <LocationManager />
     </View>
   )
 }
