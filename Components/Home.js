@@ -39,10 +39,10 @@ export default function Home({ navigation }) {
     return () => unsubscribe();
   }, []); 
 
-  async function handleImageData(imageUri) {
+  async function handleImageData(uri) {
     try {
-
-      const response = await fetch(imageUri);
+      let uploadURl = "";
+      const response = await fetch(uri);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

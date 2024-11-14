@@ -4,6 +4,7 @@ import PressableButton from './PressableButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { setWarningInDB } from '../Firebase/firestoreHelper';
 import GoalUsers from './GoalUsers';
+import { ref, getDownloadURL } from 'firebase/storage';
 
 export default function GoalDetails({ navigation, route }) {
   const [warningPressed, setWarningPressed] = useState(false);
@@ -29,6 +30,20 @@ export default function GoalDetails({ navigation, route }) {
       },  
     });
   }, []);
+
+  useEffect(() => {
+    async function getImageDownloadURL() {
+      try {
+        if (route.params && route.params.goalObj.imageUri) {
+          const imageRef = ref(storage, route.params.goalObj.imageUri);
+          const downloadURL = await getDownloadURL(imageRef);
+        }
+      } catch (error) {
+        console.log("Error getting image download URL: ", error);
+      }
+    }
+  });
+
 
   return (
     <View>
