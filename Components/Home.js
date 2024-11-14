@@ -5,9 +5,10 @@ import Input from './Input';
 import { useState, useEffect } from 'react';
 import GoalItem from './GoalItem';
 import PressableButton from './PressableButton';
-import { database } from '../Firebase/firebaseSetup';
+import { auth, database, storage } from '../Firebase/firebaseSetup';
 import { deleteFromDB, writeToDB, deleteAllFromDB } from '../Firebase/firestoreHelper';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { ref, uploadBytesResumable } from 'firebase/storage';
 
 export default function Home({ navigation }) {
   const appName = 'My First React Native App';
@@ -17,7 +18,8 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     // querySnapshot is a list of documentSnapshots
-    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapshot) => {
+    const q = query(collection(database, collectionName),where("owner", "==", auth.currentUser.uid));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       // Define an empty array to store the goals
       let arrayOfGoals = [];
       querySnapshot.forEach((docSnapshot) => {
@@ -27,14 +29,40 @@ export default function Home({ navigation }) {
       });
       // Set the goals array to the goals array
       setGoals(arrayOfGoals);
-    });
+    },
+    
+    (error) => {
+      console.log("Error reading data: ", error);
+      Alert.alert(error.message);
+    }
+  );
     return () => unsubscribe();
   }, []); 
 
+  async function handleImageData(imageUri) {
+    try {
+      const response = await fetch(imageUri);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const blob = await response.blob();
+      const imageName = imageUri.substring(uri.lastIndexOf('/') + 1);
+      const imageRef = ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+      console.log("Upload result: ", uploadResult);
+    } catch (error) {
+      console.log("Error handling image data: ", error);
+    }
+  }
+  // data now is an object with text and imageUri property
   function handleInputData(data) {
     console.log("App ", data);
+    if (data.imageUri) {
+      handleImageData(data.imageUri);
+    }
     // declare a new JS object to store the goal
-    let newGoal = { text: data };
+    let newGoal = { text: data.text };
+    newGoal = {...newGoal, owner: auth.currentUser.uid};
     // Add the new goal to the database, call writeToDB
     writeToDB(newGoal, collectionName);
     // update the goals array with the new goal

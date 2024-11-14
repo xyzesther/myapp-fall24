@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, View, Text, Button, Modal, Alert, Image } from 'react-native'
 import React, { useState } from 'react'
 import lab2_logo from '../assets/lab2_logo.png'
+import ImageManager from './ImageManager';
 
 export default function Input({textInputFocus, inputHandler, modalVisible, cancelHandler}) {
   const [text, setText] = useState('');
@@ -8,7 +9,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
   const [message, setMessage] = useState('');
   const [isConfirmEnabled, setIsConfirmEnabled] = useState(false);
   const minCharacters = 3;
-
+  const [imageUri, setImageUri] = useState("");
 
   const updateText = (changedText) => {
     setText(changedText);
@@ -29,8 +30,13 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
     setMessage('');
   }
 
+  function receiveImageUri(imageUri) {
+    setImageUri(imageUri);
+  }
+
   const handleConfirm = () => {
-    inputHandler(text);
+    // also send back the imageUri
+    inputHandler({ text, imageUri });
     setText('');
     setIsConfirmEnabled(false);
   }
@@ -81,6 +87,7 @@ export default function Input({textInputFocus, inputHandler, modalVisible, cance
             onBlur={handleBlur}
             onFocus={handleFocus}
           />
+          <ImageManager receivedImageUri={receiveImageUri}/>
           {showCount && text.length > 0 && (
             <Text style={styles.count}>
               Characters Typed: {text.length}
