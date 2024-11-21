@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { auth } from "../Firebase/firebaseSetup";
 import LocationManager from './LocationManager';
 
