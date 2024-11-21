@@ -5,12 +5,12 @@ import * as Notifications from "expo-notifications";
 export default function NotificationManager() {
   async function verifyPermission() {
     try {
-      const permissionResponse = Notification.getPermissionsAsync();
+      const permissionResponse = Notifications.getPermissionsAsync();
       if (permissionResponse.granted) {
         return true;
       }
       const requestPermissionResponse = 
-        await Notification.requestPermissionsAsync();
+        await Notifications.requestPermissionsAsync();
       return requestPermissionResponse.granted;
     } catch (error) {
       console.log("Error getting notification permission: ", error);
@@ -28,7 +28,10 @@ export default function NotificationManager() {
           title: "My first local notification",
           body: "This is the body of the notification",
         },
-        trigger: { seconds: 5 },
+        trigger: { 
+          seconds: 3, 
+          // type: Notifications.ScheduableTriggerType.TIME_INTERVAL, (Add this for EXPO SDK 52)
+        },
       });
       console.log("Notification ID: ", id);
     } catch (error) {

@@ -12,6 +12,15 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PressableButton from './Components/PressableButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Map from './Components/Map';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+    }
+  },
+});
 
 const Stack = createNativeStackNavigator();
 
