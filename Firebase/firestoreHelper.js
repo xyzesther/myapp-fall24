@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
 import { database } from './firebaseSetup';
 
 export async function writeToDB(data, collectionName) {
@@ -33,11 +33,19 @@ export async function deleteAllFromDB(collectionName) {
   }
 }
 
-export async function setWarningInDB(collectionName, warningGoalId, data) {
+// export async function setWarningInDB(collectionName, warningGoalId, data) {
+//   try {
+//     await setDoc(doc(database, collectionName, warningGoalId), data, { merge: true });
+//   } catch (error) {
+//     console.log("Error setting warning: ", error);
+//   }
+// }
+
+export async function updateDB(collectionName, docId, data) {
   try {
-    await setDoc(doc(database, collectionName, warningGoalId), data, { merge: true });
+    await setDoc(doc(database, collectionName, docId), data, { merge: true });
   } catch (error) {
-    console.log("Error setting warning: ", error);
+    console.log("Error updating DB: ", error);
   }
 }
 
@@ -51,5 +59,20 @@ export async function readAllDocs(collectionName) {
     return arrayOfDocs;
   } catch (error) {
     console.log("Error reading all docs: ", error);
+  }
+}
+
+export async function readOneDoc(collectionName, docId) {
+  try {
+    const docRef = doc(database, collectionName, docId);
+    const docSnapshot = await getDoc(docRef);
+    if (docSnapshot.exists()) {
+      console.log("Document data:", docSnapshot.data());
+      return docSnapshot.data();
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.log("Error reading one doc: ", error);
   }
 }

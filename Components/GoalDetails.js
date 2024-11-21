@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import PressableButton from './PressableButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { setWarningInDB } from '../Firebase/firestoreHelper';
+import { updateDB } from '../Firebase/firestoreHelper';
 import GoalUsers from './GoalUsers';
 import { storage } from "../Firebase/firebaseSetup";
 import { ref, getDownloadURL } from 'firebase/storage';
@@ -14,7 +14,7 @@ export default function GoalDetails({ navigation, route }) {
   function warningHandler() {
     setWarningPressed(true);
     navigation.setOptions({ title: "Warning!" });
-    setWarningInDB('goals', route.params.goalObj.id, { warning: true });
+    updateDB('goals', route.params.goalObj.id, { warning: true });
   }
 
   useEffect(() => {
