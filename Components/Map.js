@@ -1,21 +1,28 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MapView, { Marker } from "react-native-maps";
 
 export default function Map({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [initialLocation, setInitialLocation] = useState(null);
 
   function confirmCoordinateHandler(){
     // navigate to the profile screen
     // and pass selectedCoordinate
     navigation.navigate('Profile', { selectedLocation });
   }  
+  useEffect(() => {
+    console.log(route.params.initialLocation);
+    if (route.params && route.params.initialLocation) {
+      setSelectedLocation(route.params.initialLocation);
+    }
+  }, [])
   return (
     <>
     <MapView
       initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: selectedLocation ? selectedLocation.latitude : 37.78825,
+        longitude: selectedLocation ? selectedLocation.longitude : -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421, 
       }}

@@ -50,7 +50,11 @@ export default function LocationManager() {
   }
 
   function chooseLocationHandler() {
-    navigation.navigate("Map");
+    if (location) {
+      navigation.navigate("Map", { initialLocation: location });
+    } else {
+      navigation.navigate("Map");
+    }
   }
 
   // if (location) {
