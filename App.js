@@ -80,11 +80,6 @@ const AppStack = (
     <Stack.Screen
       name="Map"
       component={Map}
-      options={({ navigation, route }) => {
-        return {
-          title: route.params ? route.params.goalObj.text : "Map",
-        }
-      }}
     />
   </>
 );
