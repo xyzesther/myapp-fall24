@@ -3,18 +3,35 @@ import React, { useEffect, useState } from "react";
 // import { getCurrentPositionAsync } from "expo-location";
 import * as Location from "expo-location";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { auth } from "../Firebase/firebaseSetup";
+import { readOneDoc, updateDB } from "../Firebase/firestoreHelper";
 
 export default function LocationManager() {
   const [location, setLocation] = useState(null);
   const [response, requestPermission] = Location.useForegroundPermissions();
+  
   const navigation = useNavigation();
-
   const route = useRoute();
+
   useEffect(() => {
     if (route.params && route.params.selectedLocation) {
       setLocation(route.params.selectedLocation);
     }
   }, [route]);
+
+  useEffect(() => {
+    async function getUsersData() {
+      try {
+        const usersData = await readOneDoc("users", auth.currentUser.uid);
+        if (usersData && usersData.location) {
+          setLocation(usersData.location);
+        }
+      } catch (err) {
+        console.log("get users data ", err);
+      }
+    }
+    getUsersData();
+  }, []);
 
   async function verifyPermission() {
     //check if user has granted permission return true
@@ -57,6 +74,14 @@ export default function LocationManager() {
     }
   }
 
+  function saveLocationHandler() {
+    try {
+      updateDB("users", auth.currentUser.uid, { location });
+    } catch (err) {
+      console.log("save location ", err);
+    }
+  }
+
   // if (location) {
   //   console.log(`https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${process.env.EXPO_PUBLIC_mapsAPIKEY}`);
   // }
@@ -73,6 +98,11 @@ export default function LocationManager() {
           alt="static map of the user's location"
         />
       )}
+      <Button 
+        disabled={!location}
+        title="Save My Location" 
+        onPress={saveLocationHandler}
+      />
     </View>
   );
 }
