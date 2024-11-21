@@ -1,11 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import MapView, { Marker } from "react-native-maps";
 
-export default function Map() {
+export default function Map({ navigation }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
+  function confirmCoordinateHandler(){
+    // navigate to the profile screen
+    // and pass selectedCoordinate
+    navigation.navigate('Profile', { selectedLocation });
+  }  
   return (
+    <>
     <MapView
       initialRegion={{
         latitude: 37.78825,
@@ -24,6 +30,12 @@ export default function Map() {
     >
       {selectedLocation && <Marker coordinate={selectedLocation} />}
     </MapView>
+    <Button 
+      disabled={!selectedLocation}
+      title="Confirm Selected Coordinate" 
+      onPress={confirmCoordinateHandler} 
+    />
+    </>
   )
 }
 
